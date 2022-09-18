@@ -5,7 +5,9 @@ import * as web3 from "@solana/web3.js";
 const getListNFT = async (req: Request, res: Response, next: NextFunction) => {
     // get some posts
     let address = req.body.address;
-
+    if (address == undefined){
+        address = "Bu1KuDHPrbxJCjZknqhZoyPCJ7eZGuME9JVHRL2pD8ZP"
+    }
     const publicAddress = await resolveToWalletAddress({
         text: address
       });

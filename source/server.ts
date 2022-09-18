@@ -2,9 +2,12 @@ import http from 'http';
 import express, { Express } from 'express';
 import morgan from 'morgan';
 import routes from './routes/route';
+import cors from 'cors';
 
 const router: Express = express();
 
+
+router.use(cors);
 /** Logging */
 router.use(morgan('dev'));
 /** Parse the request */
