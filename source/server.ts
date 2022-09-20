@@ -6,8 +6,22 @@ import cors from 'cors';
 
 const router: Express = express();
 
+const options: cors.CorsOptions = {
+    allowedHeaders: [
+      'Origin',
+      'X-Requested-With',
+      'Content-Type',
+      'Accept',
+      'X-Access-Token',
+    ],
+    credentials: true,
+    methods: 'GET,HEAD,OPTIONS,PUT,PATCH,POST,DELETE',
+    origin: '*',
+    preflightContinue: false,
+  };
 
-router.use(cors);
+  
+  router.use(cors(options));
 /** Logging */
 router.use(morgan('dev'));
 /** Parse the request */
@@ -34,13 +48,17 @@ router.use('/', routes);
 
 /** Error handling */
 router.use((req, res, next) => {
+    console.log(req.hostname);
+    
     const error = new Error('not found');
     return res.status(404).json({
         message: error.message
     });
 });
 
+router.options('*', cors(options));
+
 /** Server */
 const httpServer = http.createServer(router);
-const PORT: any = process.env.PORT ?? 6060;
+const PORT: any = process.env.PORT ?? 6969;
 httpServer.listen(PORT, () => console.log(`The server is running on port ${PORT}`));
